@@ -1,26 +1,26 @@
 package com.example.androidcomposedemo.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.androidcomposedemo.screen.FacebookScreen
+import com.rc.base.common.RcAppState
 import com.example.androidcomposedemo.screen.HomeScreen
 import com.example.androidcomposedemo.screen.SplashScreen
+import com.rc.base.navigation.MainRouting
 
 
 @Composable
-fun RcNavHost(navHostController: NavHostController, featureNavHostController: NavHostController) {
+fun RcNavHost(appState: RcAppState) {
     NavHost(
-        navController = navHostController,
+        navController = appState.mainNavHostController,
         startDestination = MainRouting.Splash
     ) {
         composable<MainRouting.Splash> {
-            SplashScreen(navHostController)
+            SplashScreen(appState)
         }
 
         composable<MainRouting.Home> {
-            HomeScreen(featureNavHostController)
+            HomeScreen(appState)
         }
     }
 }

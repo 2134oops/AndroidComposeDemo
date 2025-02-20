@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidComposeDemo"
 include(":app")
- 
+include(":facebook")
+include(":base")
