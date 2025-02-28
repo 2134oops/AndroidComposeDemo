@@ -1,7 +1,14 @@
 package com.rc.facebook.ui.screen.facebookList.model
 
-class FacebookPostItem {
-}
+data class FacebookPostItem(
+    val userName: String,
+    val createTime: String,
+    val postTitle: String,
+    val emojiList: List<EmojiItem> = emptyList(),
+    val commentCount: String,
+    val sharedCount: String
+)
+
 
 enum class EmojiType {
     SMILE,
@@ -13,5 +20,5 @@ enum class EmojiType {
 
 data class EmojiItem(
     val emojiType: EmojiType,
-    val count:Int = 0
+    val count: Int = 0
 )

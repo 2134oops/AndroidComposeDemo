@@ -57,7 +57,7 @@ fun FacebookStoryHorizontalView(userStoryList: List<BaseFacebookStoryItem>) {
             userStoryList[it].let { item ->
                 when (item) {
                     is FacebookStoryUserItem -> {
-                        FacebookStoryUserItemView()
+                        FacebookStoryUserItemView(userName = item.userName)
                     }
 
                     is FacebookStoryCreateStoryItem -> {
@@ -75,7 +75,7 @@ fun FacebookStoryHorizontalView(userStoryList: List<BaseFacebookStoryItem>) {
 
 
 @Composable
-fun FacebookStoryUserItemView() {
+fun FacebookStoryUserItemView(userName: String) {
     StoryItemCardView {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
@@ -108,7 +108,7 @@ fun FacebookStoryUserItemView() {
                     .padding(horizontal = 12.dp, vertical = 12.dp)
             ) {
                 Text(
-                    text = "User Name User Name User Name User Name",
+                    text = userName,
                     color = Color.White,
                     style = TextStyle(
                         fontSize = 12.sp,
@@ -258,13 +258,13 @@ private fun PreviewStoryItemCardView() {
 @Composable
 @Preview
 private fun PreviewFacebookStoryUserItem() {
-    FacebookStoryUserItem()
+    FacebookStoryUserItemView("")
 }
 
 
 @Composable
 @Preview
 private fun PreviewFacebookHorizontalView() {
-    val sampleDataList = listOf(FacebookStoryUserItem())
+    val sampleDataList = listOf(FacebookStoryUserItem(userName = ""))
     FacebookStoryHorizontalView(sampleDataList)
 }

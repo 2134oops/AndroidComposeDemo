@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.androidcomposedemo.navigation.HomeNavHost
 import com.rc.base.navigation.MainRouting
 import com.example.androidcomposedemo.navigation.RcNavHost
 import com.rc.base.common.RcAppState

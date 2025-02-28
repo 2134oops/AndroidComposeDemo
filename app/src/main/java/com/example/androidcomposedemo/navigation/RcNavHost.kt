@@ -19,7 +19,8 @@ fun RcNavHost(appState: RcAppState) {
             SplashScreen(appState)
         }
 
-        composable<MainRouting.Home> {
+        composable<MainRouting.Home>(enterTransition = enterTransition) {
+
             HomeScreen(appState)
         }
     }

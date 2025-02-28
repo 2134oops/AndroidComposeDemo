@@ -1,6 +1,5 @@
 package com.rc.facebook.ui.screen.facebookList
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,10 +10,6 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,25 +20,35 @@ import com.rc.facebook.ui.screen.facebookList.component.FacebookDivider
 import com.rc.facebook.ui.screen.facebookList.component.FacebookPostItemView
 import com.rc.facebook.ui.screen.facebookList.component.FacebookShareBar
 import com.rc.facebook.ui.screen.facebookList.component.FacebookStoryHorizontalView
+import com.rc.facebook.ui.screen.facebookList.model.BaseFacebookStoryItem
+import com.rc.facebook.ui.screen.facebookList.model.FacebookPostItem
 import com.rc.facebook.ui.screen.facebookList.model.FacebookStoryCreateStoryItem
 import com.rc.facebook.ui.screen.facebookList.model.FacebookStorySearchMusicItem
 import com.rc.facebook.ui.screen.facebookList.model.FacebookStoryUserItem
 import com.rc.facebook.ui.screen.facebookList.viewModel.FacebookListViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
-fun FacebookScreen(appState: RcAppState, viewModel:FacebookListViewModel) {
+fun FacebookScreen(appState: RcAppState, viewModel: FacebookListViewModel) {
     val isRefreshing = viewModel.isRefreshingState.collectAsState()
-    FacebookScreenContent(isRefreshing = isRefreshing.value, onRefresh = viewModel::onRefresh)
+    val facebookPostList = viewModel.facebookListState.collectAsState()
+    val facebookStoryList = viewModel.storyListState.collectAsState()
+    FacebookScreenContent(
+        isRefreshing = isRefreshing.value,
+        facebookPostList = facebookPostList.value,
+        facebookStoryList = facebookStoryList.value,
+        onRefresh = viewModel::onRefresh,
+    )
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun FacebookScreenContent(isRefreshing: Boolean, onRefresh:()-> Unit ) {
+internal fun FacebookScreenContent(
+    isRefreshing: Boolean,
+    facebookPostList: List<FacebookPostItem>,
+    facebookStoryList: List<BaseFacebookStoryItem>,
+    onRefresh: () -> Unit
+) {
     val scrollBehavior =
         TopAppBarDefaults.enterAlwaysScrollBehavior(state = rememberTopAppBarState())
 
@@ -56,8 +61,10 @@ internal fun FacebookScreenContent(isRefreshing: Boolean, onRefresh:()-> Unit ) 
         topBar = { FacebookAppBar(scrollBehavior) },
     ) {
         val contentPadding = it
-        PullToRefreshBox(isRefreshing = isRefreshing, onRefresh = onRefresh,
-            modifier = Modifier.padding(top = contentPadding.calculateTopPadding())) {
+        PullToRefreshBox(
+            isRefreshing = isRefreshing, onRefresh = onRefresh,
+            modifier = Modifier.padding(top = contentPadding.calculateTopPadding())
+        ) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -70,22 +77,15 @@ internal fun FacebookScreenContent(isRefreshing: Boolean, onRefresh:()-> Unit ) 
                 }
                 item {
                     FacebookStoryHorizontalView(
-                        listOf(
-                            FacebookStorySearchMusicItem(),
-                            FacebookStoryCreateStoryItem(),
-                            FacebookStoryUserItem(),
-                            FacebookStoryUserItem(),
-                            FacebookStoryUserItem(),
-                            FacebookStoryUserItem()
-                        )
+                        facebookStoryList
                     )
                 }
                 item {
                     FacebookDivider()
                 }
 
-                items(100) {
-                    FacebookPostItemView()
+                items(facebookPostList.size) { index ->
+                    FacebookPostItemView(facebookPostItem = facebookPostList[index])
                 }
             }
         }
@@ -95,5 +95,5 @@ internal fun FacebookScreenContent(isRefreshing: Boolean, onRefresh:()-> Unit ) 
 @Composable
 @Preview
 fun PreviewFaceBookContent() {
-    FacebookScreenContent(false) {}
+    FacebookScreenContent(false, emptyList(), emptyList()) {}
 }

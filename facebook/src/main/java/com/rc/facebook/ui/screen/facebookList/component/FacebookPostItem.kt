@@ -39,6 +39,7 @@ import androidx.compose.ui.zIndex
 import com.rc.facebook.R
 import com.rc.facebook.ui.screen.facebookList.model.EmojiItem
 import com.rc.facebook.ui.screen.facebookList.model.EmojiType
+import com.rc.facebook.ui.screen.facebookList.model.FacebookPostItem
 
 
 val listEmoji = listOf(
@@ -72,7 +73,7 @@ val listEmoji = listOf(
 )
 
 @Composable
-fun FacebookPostItemView(modifier: Modifier = Modifier) {
+fun FacebookPostItemView(modifier: Modifier = Modifier, facebookPostItem: FacebookPostItem) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -82,7 +83,11 @@ fun FacebookPostItemView(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(horizontal = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            UserInfoView(modifier.weight(1f))
+            UserInfoView(
+                modifier.weight(1f),
+                facebookPostItem.userName,
+                facebookPostItem.createTime
+            )
             Icon(
                 modifier = Modifier
                     .rotate(90f)
@@ -102,7 +107,7 @@ fun FacebookPostItemView(modifier: Modifier = Modifier) {
 
         Box(modifier = Modifier.padding(vertical = 4.dp, horizontal = 12.dp)) {
             Text(
-                "content content content content content content content content content content content content content content content content ",
+                facebookPostItem.postTitle,
                 color = Color.White,
                 style = TextStyle(
                     fontSize = 14.sp
@@ -119,7 +124,11 @@ fun FacebookPostItemView(modifier: Modifier = Modifier) {
             contentDescription = null
         )
 
-        UserReactionStatusView(emojiItemList = listEmoji)
+        UserReactionStatusView(
+            emojiItemList = facebookPostItem.emojiList,
+            commentCount = facebookPostItem.commentCount.toInt(),
+            sharesCount = facebookPostItem.sharedCount.toInt()
+        )
         BottomButtonBar()
         FacebookDivider()
     }
@@ -166,8 +175,8 @@ fun LikeCountView(modifier: Modifier = Modifier, emojiItemList: List<EmojiItem>)
                 EmojiType.LOVE -> R.drawable.love
                 EmojiType.LIKE -> R.drawable.like
             }
-             offsetX = if (index > 0) {
-                 offsetX -5.dp
+            offsetX = if (index > 0) {
+                offsetX - 5.dp
             } else {
                 0.dp
             }
@@ -180,10 +189,14 @@ fun LikeCountView(modifier: Modifier = Modifier, emojiItemList: List<EmojiItem>)
                     .offset(x = offsetX)
                     .zIndex(zIndex.toFloat()),
 
-            )
+                )
         }
         Spacer(modifier = Modifier.size(4.dp))
-        Text("$totalCount",modifier = Modifier.offset(x = offsetX), style = TextStyle(fontSize = 12.sp, color = Color.LightGray))
+        Text(
+            "$totalCount",
+            modifier = Modifier.offset(x = offsetX),
+            style = TextStyle(fontSize = 12.sp, color = Color.LightGray)
+        )
     }
 }
 
@@ -212,7 +225,7 @@ private fun PreviewUserReactionStatusView() {
 
 
 @Composable
-fun UserInfoView(modifier: Modifier) {
+fun UserInfoView(modifier: Modifier, userName: String, createTime: String) {
     Row(modifier) {
         Icon(
             modifier = Modifier
@@ -225,16 +238,16 @@ fun UserInfoView(modifier: Modifier) {
         Spacer(modifier = Modifier.size(4.dp))
         Column {
             Text(
-                text = "username",
+                text = userName,
                 color = Color.White,
                 style = TextStyle(
                     fontSize = 14.sp
                 )
             )
-            Spacer(modifier=Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(2.dp))
             Row {
                 Text(
-                    "29m ．",
+                    "$createTime ．",
                     color = Color.LightGray,
                     style = TextStyle(
                         fontSize = 8.sp
@@ -254,7 +267,9 @@ fun UserInfoView(modifier: Modifier) {
 @Composable
 fun BottomButtonBar(modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 8.dp),
     ) {
         BottomButton(
             modifier = Modifier.weight(1f),
@@ -281,7 +296,11 @@ fun BottomButtonBar(modifier: Modifier = Modifier) {
 
 @Composable
 fun BottomButton(modifier: Modifier = Modifier, @DrawableRes buttonIcon: Int, buttonText: String) {
-    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier, horizontalArrangement = Arrangement.Center) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier,
+        horizontalArrangement = Arrangement.Center
+    ) {
         Image(
             painter = painterResource(buttonIcon),
             contentDescription = null,
@@ -308,12 +327,19 @@ private fun PreviewBottomButtonBar() {
 @Preview
 @Composable
 private fun PreviewUserInfoView() {
-    UserInfoView(Modifier)
+    UserInfoView(Modifier, "", "")
 }
 
 
 @Preview
 @Composable
 private fun PreviewFacebookPostItemView() {
-    FacebookPostItemView()
+    val item = FacebookPostItem(
+        userName = "username",
+        postTitle = "title",
+        createTime = "2021-09-01 12:00",
+        commentCount = "10",
+        sharedCount = "20"
+    )
+    FacebookPostItemView(facebookPostItem = item)
 }
