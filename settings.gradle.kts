@@ -23,3 +23,4 @@ rootProject.name = "AndroidComposeDemo"
 include(":app")
 include(":facebook")
 include(":base")
+include(":observatory")

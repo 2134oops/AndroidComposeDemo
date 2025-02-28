@@ -15,6 +15,11 @@ appcompat = "1.7.0"
 material = "1.12.0"
 uiTooling = "1.7.7"
 koinVersion = "4.0.2"
+retrofit = "2.11.0"
+retrofitConverterGson = "2.11.0"
+okhttp = "4.12.0"
+okhttpLoggingInterceptor = "4.12.0"
+gson = "2.12.1"
 
 
 [libraries]
@@ -39,6 +44,11 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 koin-anroid = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinVersion" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitConverterGson" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLoggingInterceptor" }
+gson ={ group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 
 [plugins]

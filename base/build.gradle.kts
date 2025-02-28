@@ -54,6 +54,13 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.koin.anroid)
 
+    // okhttp + retrofit
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.gson)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
