@@ -34,8 +34,9 @@ import androidx.navigation.navOptions
 import com.rc.base.common.RcAppState
 import com.rc.base.navigation.FeatRouting
 import com.example.androidcomposedemo.navigation.HomeNavHost
-import com.example.androidcomposedemo.navigation.navigateToFacebook
+
 import com.rc.base.util.getCustomColor
+import com.rc.facebook.ui.screen.navigation.navigateToFacebook
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -44,7 +45,6 @@ fun HomeScreen(appState: RcAppState) {
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabScreenList = listOf(
         FeatRouting.FacebookSection.Facebook,
-        FeatRouting.Instagram,
         FeatRouting.Observatory
     )
 
@@ -74,8 +74,7 @@ fun HomeScreen(appState: RcAppState) {
                             )
                         })
 
-                        1 -> appState.homeNavHostController.navigate(FeatRouting.Instagram)
-                        2 -> appState.homeNavHostController.navigate(FeatRouting.Instagram)
+                        1 -> appState.homeNavHostController.navigate(FeatRouting.Observatory)
                     }
                 }
         }
@@ -103,20 +102,20 @@ fun BottomNavigationBar(backgroundColor: Color, tabItemClick: (Int) -> Unit) {
                 tabItemClick(0)
             }
         )
-        NavigationBarItem(
-            selected = false,
-            icon = { Text(text = "Instagram") },
-            label = { Text(text = "Instagram") },
-            onClick = {
-                tabItemClick(1)
-            }
-        )
+//        NavigationBarItem(
+//            selected = false,
+//            icon = { Text(text = "Instagram") },
+//            label = { Text(text = "Instagram") },
+//            onClick = {
+//                tabItemClick(1)
+//            }
+//        )
         NavigationBarItem(
             selected = true,
             icon = { Text(text = "Observatory") },
             label = { Text(text = "Observatory") },
             onClick = {
-                tabItemClick(2)
+                tabItemClick(1)
             }
         )
     }
