@@ -27,4 +27,14 @@ val networkModule = module {
     }
 
 
+    factory(qualifier = named("ObservatoryRetrofit")) {
+        Retrofit.Builder()
+            .baseUrl("https://data.weather.gov.hk/")
+            .addConverterFactory(GsonConverterFactory.create(get(named("GsonBuilder"))))
+            .addCallAdapterFactory(NetworkResponseAdapterFactory())
+            .client(get<OkHttpClient>(qualifier = named("OkHttpClient")))
+            .build()
+    }
+
+
 }
