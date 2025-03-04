@@ -1,5 +1,7 @@
 package com.example.observatory
 
+import com.example.observatory.currentWeatherInfo.usecase.CurrentWeatherInfoUseCase
+import com.example.observatory.currentWeatherInfo.usecase.CurrentWeatherInfoUseCaseImpl
 import com.example.observatory.currentWeatherInfo.viewModel.CurrentWeatherInfoViewModel
 import com.example.observatory.network.ObservatoryApiEndPoint
 import com.example.observatory.network.gson.GsonDeserializer
@@ -17,7 +19,7 @@ val ObservatoryModule = module {
 
     factory(qualifier = named("GsonBuilder")) {
         GsonBuilder()
-            .registerTypeAdapter(Uvindex::class.java, GsonDeserializer())
+            .registerTypeAdapter(Uvindex::class.java, GsonDeserializer<Uvindex>())
             .create()
     }
 
@@ -31,7 +33,11 @@ val ObservatoryModule = module {
         ObservatoryRepository(get(qualifier = named("ObservatoryApiEndPoint")))
     }
 
+    factory<CurrentWeatherInfoUseCase> {
+        CurrentWeatherInfoUseCaseImpl(repository = get())
+    }
+
     factory<CurrentWeatherInfoViewModel> {
-        CurrentWeatherInfoViewModel(application = get(), repository = get())
+        CurrentWeatherInfoViewModel(application = get(), currentWeatherInfoUseCase = get())
     }
 }

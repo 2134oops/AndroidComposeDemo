@@ -1,5 +1,7 @@
 package com.example.observatory.network.model
 
+import com.google.gson.annotations.SerializedName
+
 
 data class HongKongLocationTemperature(
     val humidity: Humidity,
@@ -14,6 +16,7 @@ data class HongKongLocationTemperature(
     val tcmessage: String,
     val temperature: Temperature,
     val updateTime: String,
+    @SerializedName("uvindex")
     val uvindex: Uvindex?,
     val warningMessage: String
 )
@@ -30,11 +33,12 @@ data class Rainfall(
 )
 
 data class Temperature(
-    val `data`: List<HumidityData>,
+    val data: List<HumidityData>,
     val recordTime: String
 )
 
 data class Uvindex(
+    @SerializedName("data")
     val data: List<UvindexData>,
     val recordDesc: String
 )
@@ -42,12 +46,12 @@ data class Uvindex(
 data class HumidityData(
     val place: String,
     val unit: String,
-    val value: Int
+    val value: Float
 )
 
 data class RainFallData(
     val main: String,
-    val max: Int,
+    val max: Float,
     val place: String,
     val unit: String
 )
@@ -55,5 +59,5 @@ data class RainFallData(
 data class UvindexData(
     val desc: String,
     val place: String,
-    val value: Int
+    val value: Float
 )

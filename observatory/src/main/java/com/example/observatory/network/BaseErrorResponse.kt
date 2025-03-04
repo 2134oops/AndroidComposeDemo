@@ -1,6 +1,8 @@
 package com.example.observatory.network
 
+import com.rc.base.model.error.BaseError
+
 data class BaseErrorResponse(
-    val errorCode: String,
-    val message: String,
-)
+    override val errorCode: String,
+    override val message: String,
+): BaseError()

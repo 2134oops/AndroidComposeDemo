@@ -1,4 +1,4 @@
-package com.rc.base.model.base
+package com.rc.base.model.error
 
 abstract class BaseError {
     abstract val errorCode:String
