@@ -1,6 +1,7 @@
 package com.example.androidcomposedemo
 
 import android.app.Application
+import com.example.observatory.ObservatoryModule
 import com.rc.base.koinModule.networkModule
 import com.rc.facebook.ui.screen.facebookModule
 import org.koin.android.ext.koin.androidContext
@@ -19,7 +20,8 @@ class MyApplication : Application() {
             androidContext(this@MyApplication)
             modules(
                 facebookModule,
-                networkModule
+                networkModule,
+                ObservatoryModule
             )
         }
     }

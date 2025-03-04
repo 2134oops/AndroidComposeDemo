@@ -1,6 +1,7 @@
 package com.rc.base.koinModule
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.rc.base.network.NetworkResponseAdapterFactory
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
@@ -17,6 +18,7 @@ val networkModule = module {
         ConnectionPool()
     }
 
+
     single(qualifier = named("OkHttpClient")) {
         OkHttpClient.Builder()
             .connectionPool(get<ConnectionPool>())
@@ -24,11 +26,15 @@ val networkModule = module {
             .build()
     }
 
+
     factory(qualifier = named("ObservatoryRetrofit")) {
         Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("https://data.weather.gov.hk/")
+            .addConverterFactory(GsonConverterFactory.create(get(named("GsonBuilder"))))
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .client(get<OkHttpClient>(qualifier = named("OkHttpClient")))
             .build()
     }
+
+
 }
