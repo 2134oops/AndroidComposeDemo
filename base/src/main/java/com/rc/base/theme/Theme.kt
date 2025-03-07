@@ -15,6 +15,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.rc.base.navigation.FeatRouting
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -39,7 +40,8 @@ private val LightColorScheme = lightColorScheme(
 )
 
 data class RcColors(
-    val facebookDarkGrey: Color = Color.Unspecified
+    val facebookDarkGrey: Color = Color.Unspecified,
+    val observatoryGrey: Color = Color.Unspecified
 )
 
 val LocalExtendedColors = staticCompositionLocalOf { RcColors() }
@@ -70,16 +72,15 @@ fun AndroidComposeDemoTheme(
         else -> LightColorScheme
     }
 
-    val rcColors = RcColors(facebookDarkGrey = facebookDarkGrey)
+    val rcColors = RcColors(facebookDarkGrey = facebookDarkGrey, observatoryGrey = observatoryGrey)
 
     CompositionLocalProvider(
         LocalExtendedColors provides rcColors
     ) {
         MaterialTheme(
-            colorScheme = colorScheme.extendColor(rcColors),
+            colorScheme = colorScheme,
             typography = Typography,
             content = content
         )
     }
-
 }

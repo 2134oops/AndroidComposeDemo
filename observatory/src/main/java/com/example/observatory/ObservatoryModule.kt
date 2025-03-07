@@ -6,6 +6,7 @@ import com.example.observatory.currentWeatherInfo.viewModel.CurrentWeatherInfoVi
 import com.example.observatory.network.ObservatoryApiEndPoint
 import com.example.observatory.network.gson.GsonDeserializer
 import com.example.observatory.network.model.Uvindex
+import com.example.observatory.network.model.UvindexData
 import com.example.observatory.repository.ObservatoryRepository
 import com.google.gson.GsonBuilder
 import com.rc.base.network.NetworkResponseAdapterFactory
@@ -19,6 +20,7 @@ val ObservatoryModule = module {
 
     factory(qualifier = named("GsonBuilder")) {
         GsonBuilder()
+            .registerTypeAdapter(UvindexData::class.java, GsonDeserializer<UvindexData>())
             .registerTypeAdapter(Uvindex::class.java, GsonDeserializer<Uvindex>())
             .create()
     }

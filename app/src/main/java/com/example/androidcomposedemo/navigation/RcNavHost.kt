@@ -20,7 +20,6 @@ fun RcNavHost(appState: RcAppState) {
         }
 
         composable<MainRouting.Home>(enterTransition = enterTransition) {
-
             HomeScreen(appState)
         }
     }

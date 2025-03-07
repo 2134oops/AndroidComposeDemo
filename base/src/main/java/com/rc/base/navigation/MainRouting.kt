@@ -21,6 +21,7 @@ sealed class FeatRouting {
 
         @Serializable
         data object Facebook : FacebookSection()
+
         @Serializable
         data object FacebookDetail : FacebookSection()
 
@@ -31,5 +32,12 @@ sealed class FeatRouting {
     data object Instagram : FeatRouting()
 
     @Serializable
-    data object Observatory : FeatRouting()
+    sealed class ObservatorySection : FeatRouting() {
+        @Serializable
+        data object ObservatoryGraph : ObservatorySection()
+
+        @Serializable
+        data object CurrentWeatherInfo : ObservatorySection()
+    }
+
 }

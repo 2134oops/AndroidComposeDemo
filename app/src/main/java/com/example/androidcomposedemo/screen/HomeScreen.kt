@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.statusBarsIgnoringVisibility
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -34,6 +35,7 @@ import androidx.navigation.navOptions
 import com.rc.base.common.RcAppState
 import com.rc.base.navigation.FeatRouting
 import com.example.androidcomposedemo.navigation.HomeNavHost
+import com.example.observatory.navigation.navigateToObservatory
 
 import com.rc.base.util.getCustomColor
 import com.rc.facebook.ui.screen.navigation.navigateToFacebook
@@ -45,7 +47,7 @@ fun HomeScreen(appState: RcAppState) {
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabScreenList = listOf(
         FeatRouting.FacebookSection.Facebook,
-        FeatRouting.Observatory
+        FeatRouting.ObservatorySection.CurrentWeatherInfo
     )
 
     val currentDestination =
@@ -55,17 +57,29 @@ fun HomeScreen(appState: RcAppState) {
         tabScreenList.any { currentDestination?.hasRoute(it::class) == true }
 
     val bottomNavigationBarBackgroundColor =
-        if (currentDestination?.hasRoute(FeatRouting.FacebookSection.Facebook::class) == true) {
-            getCustomColor().facebookDarkGrey
-        } else {
-            Color.White
+        when {
+            currentDestination?.hasRoute(FeatRouting.FacebookSection.Facebook::class) == true -> {
+                getCustomColor().facebookDarkGrey
+            }
+
+            currentDestination?.hasRoute(FeatRouting.ObservatorySection.CurrentWeatherInfo::class) == true -> {
+                getCustomColor().observatoryGrey
+            }
+
+            else -> {
+                Color.White
+
+            }
         }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp),
         bottomBar = {
             if (isBottomNavigationScreen)
-                BottomNavigationBar(bottomNavigationBarBackgroundColor) {
+                BottomNavigationBar(
+                    selectedIndex = selectedTab,
+                    backgroundColor = bottomNavigationBarBackgroundColor
+                ) {
                     selectedTab = it
                     when (it) {
                         0 -> appState.homeNavHostController.navigateToFacebook(navOptions {
@@ -74,7 +88,8 @@ fun HomeScreen(appState: RcAppState) {
                             )
                         })
 
-                        1 -> appState.homeNavHostController.navigate(FeatRouting.Observatory)
+                        1 -> appState.homeNavHostController.navigateToObservatory(navOptions {
+                        })
                     }
                 }
         }
@@ -90,13 +105,13 @@ fun HomeScreen(appState: RcAppState) {
 
 
 @Composable
-fun BottomNavigationBar(backgroundColor: Color, tabItemClick: (Int) -> Unit) {
+fun BottomNavigationBar(backgroundColor: Color, selectedIndex: Int, tabItemClick: (Int) -> Unit) {
     NavigationBar(
         containerColor = backgroundColor
     ) {
         NavigationBarItem(
-            selected = true,
-            icon = { Icon(imageVector = Icons.Default.Home, contentDescription = null)},
+            selected = selectedIndex == 0,
+            icon = { Icon(imageVector = Icons.Default.Home, contentDescription = null) },
             label = { Text(text = "Facebook") },
             onClick = {
                 tabItemClick(0)
@@ -111,8 +126,8 @@ fun BottomNavigationBar(backgroundColor: Color, tabItemClick: (Int) -> Unit) {
 //            }
 //        )
         NavigationBarItem(
-            selected = true,
-            icon = { Text(text = "Observatory") },
+            selected = selectedIndex == 1,
+            icon = { Icon(imageVector = Icons.Default.Info, contentDescription = null) },
             label = { Text(text = "Observatory") },
             onClick = {
                 tabItemClick(1)

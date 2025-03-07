@@ -1,8 +1,5 @@
 package com.example.observatory.network.model
 
-import com.google.gson.annotations.SerializedName
-
-
 data class HongKongLocationTemperature(
     val humidity: Humidity,
     val icon: List<Int>,
@@ -16,10 +13,69 @@ data class HongKongLocationTemperature(
     val tcmessage: String,
     val temperature: Temperature,
     val updateTime: String,
-    @SerializedName("uvindex")
     val uvindex: Uvindex?,
-    val warningMessage: String
-)
+    val warningMessage: List<String> = emptyList()
+){
+
+    companion object{
+        fun dummy(): HongKongLocationTemperature{
+            return HongKongLocationTemperature(
+                humidity = Humidity(
+                    data = listOf(
+                        HumidityData(
+                            place = "Hong Kong Observatory",
+                            unit = "%",
+                            value = 80.0f
+                        )
+                    ),
+                    recordTime = "2021-09-01T00:00:00"
+                ),
+                icon = listOf(1,2,3),
+                iconUpdateTime = "2021-09-01T00:00:00",
+                mintempFrom00To09 = "25.0",
+                rainfall = Rainfall(
+                    data = listOf(
+                        RainFallData(
+                            main = "Hong Kong Observatory",
+                            max = 0.0f,
+                            place = "Hong Kong Observatory",
+                            unit = "mm"
+                        )
+                    ),
+                    endTime = "2021-09-01T00:00:00",
+                    startTime = "2021-09-01T00:00:00"
+                ),
+                rainfallFrom00To12 = "0.0",
+                rainfallJanuaryToLastMonth = "0.0",
+                rainfallLastMonth = "0.0",
+                specialWxTips = listOf("1","2","3"),
+                tcmessage = "1",
+                temperature = Temperature(
+                    data = listOf(
+                        HumidityData(
+                            place = "Hong Kong Observatory",
+                            unit = "C",
+                            value = 25.0f
+                        )
+                    ),
+                    recordTime = "2021-09-01T00:00:00"
+                ),
+                updateTime = "2021-09-01T00:00:00",
+                uvindex = Uvindex(
+                    data = listOf(
+                        UvindexData(
+                            desc = "1",
+                            place = "Hong Kong Observatory",
+                            value = 1.0f
+                        )
+                    ),
+                    recordDesc = "1"
+                ),
+                warningMessage = emptyList()
+            )
+        }
+    }
+}
 
 data class Humidity(
     val data: List<HumidityData>,
@@ -38,8 +94,7 @@ data class Temperature(
 )
 
 data class Uvindex(
-    @SerializedName("data")
-    val data: List<UvindexData>,
+    val data: List<UvindexData>?,
     val recordDesc: String
 )
 

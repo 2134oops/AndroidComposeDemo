@@ -2,10 +2,7 @@ package com.example.androidcomposedemo.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.example.androidcomposedemo.screen.InstagramScreen
-import com.example.observatory.currentWeatherInfo.screen.CurrentWeatherInfoScreen
-import com.example.observatory.currentWeatherInfo.viewModel.CurrentWeatherInfoViewModel
+import com.example.observatory.navigation.observatorySession
 import com.rc.base.common.RcAppState
 import com.rc.base.navigation.FeatRouting
 import com.rc.facebook.ui.screen.navigation.facebookSession
@@ -19,8 +16,6 @@ fun HomeNavHost(appState: RcAppState) {
     ) {
         facebookSession(appState)
 
-        composable<FeatRouting.Observatory> {
-            CurrentWeatherInfoScreen()
-        }
+        observatorySession(appState)
     }
 }
