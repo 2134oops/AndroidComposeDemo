@@ -12,3 +12,4 @@ val Pink40 = Color(0xFF7D5260)
 
 val facebookDarkGrey = Color(0xFF282525)
 val observatoryGrey = Color(0xFFBBBBBB)
+val observatorySkyBlue = Color(0xFF14b3ef)

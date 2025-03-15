@@ -22,6 +22,7 @@ val ObservatoryModule = module {
         GsonBuilder()
             .registerTypeAdapter(UvindexData::class.java, GsonDeserializer<UvindexData>())
             .registerTypeAdapter(Uvindex::class.java, GsonDeserializer<Uvindex>())
+//            .registerTypeAdapter(List::class.java, GsonDeserializer<List<String>>())
             .create()
     }
 

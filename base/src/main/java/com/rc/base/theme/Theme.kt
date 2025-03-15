@@ -41,7 +41,8 @@ private val LightColorScheme = lightColorScheme(
 
 data class RcColors(
     val facebookDarkGrey: Color = Color.Unspecified,
-    val observatoryGrey: Color = Color.Unspecified
+    val observatoryGrey: Color = Color.Unspecified,
+    val observatorySkyBlue: Color = Color.Unspecified
 )
 
 val LocalExtendedColors = staticCompositionLocalOf { RcColors() }
@@ -72,7 +73,11 @@ fun AndroidComposeDemoTheme(
         else -> LightColorScheme
     }
 
-    val rcColors = RcColors(facebookDarkGrey = facebookDarkGrey, observatoryGrey = observatoryGrey)
+    val rcColors = RcColors(
+        facebookDarkGrey = facebookDarkGrey,
+        observatoryGrey = observatoryGrey,
+        observatorySkyBlue = observatorySkyBlue
+    )
 
     CompositionLocalProvider(
         LocalExtendedColors provides rcColors

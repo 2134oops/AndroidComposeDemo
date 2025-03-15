@@ -72,7 +72,7 @@ class CurrentWeatherInfoViewModel(
                         humidity = humidityData,
                         temperature = temperatureData,
                         rainFall = rainfallData,
-                        warningMessage = data.warningMessage.firstOrNull() ?: ""
+                        warningMessage = data.warningMessage?.firstOrNull() ?: ""
                     )
                 }
 

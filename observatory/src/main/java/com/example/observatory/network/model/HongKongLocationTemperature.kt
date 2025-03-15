@@ -1,5 +1,8 @@
 package com.example.observatory.network.model
 
+import com.example.observatory.network.gson.GsonDeserializer
+import com.google.gson.annotations.JsonAdapter
+
 data class HongKongLocationTemperature(
     val humidity: Humidity,
     val icon: List<Int>,
@@ -14,7 +17,8 @@ data class HongKongLocationTemperature(
     val temperature: Temperature,
     val updateTime: String,
     val uvindex: Uvindex?,
-    val warningMessage: List<String> = emptyList()
+    @JsonAdapter(GsonDeserializer::class)
+    val warningMessage: List<String>? = null
 ){
 
     companion object{
