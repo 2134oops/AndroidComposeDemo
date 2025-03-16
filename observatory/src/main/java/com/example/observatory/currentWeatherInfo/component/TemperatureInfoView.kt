@@ -3,6 +3,7 @@ package com.example.observatory.currentWeatherInfo.component
 import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
@@ -21,8 +23,13 @@ import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -90,6 +97,8 @@ fun TemperatureInfoView(modifier: Modifier = Modifier, data: TemperatureInfo) {
     val temperature = data.temperature
     val rainFall = data.rainFall
 
+    var isExpandedWarningMessage by remember { mutableStateOf(false) }
+
     Box(
         modifier = modifier
             .background(Color.White)
@@ -101,11 +110,10 @@ fun TemperatureInfoView(modifier: Modifier = Modifier, data: TemperatureInfo) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                modifier = Modifier.weight(1f),
                 text = data.dateString,
                 style = dataTextStyle
             )
-            Spacer(modifier.weight(1f))
+            Spacer(modifier.height(30.dp))
 
             WeatherInfoCardView(
                 modifier = Modifier.align(Alignment.Start),
@@ -122,27 +130,19 @@ fun TemperatureInfoView(modifier: Modifier = Modifier, data: TemperatureInfo) {
                 label = "降雨量",
                 value = "${rainFall?.max ?: "-"} ${rainFall?.unit ?: "mm"}"
             )
-            
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .border(
-                        width = 1.dp,
-                        color = Color(0x80979797),
-                        shape = RoundedCornerShape(36.dp)
-                    )
+
+            Text(
+                modifier = Modifier.fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(color = Color(0x50000000))
                     .padding(12.dp)
                     .wrapContentHeight()
-            ) {
-                Text(
-                    modifier = Modifier.fillMaxWidth().align(Alignment.Center),
-                    text = data.warningMessage.ifEmpty { "No warning message No warning message No warning message No warning message No warning message No warning message No warning message" },
-                    style = dataTextStyle,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
+                    .clickable { isExpandedWarningMessage = isExpandedWarningMessage.not() },
+                text = data.warningMessage.ifEmpty { "No warning message No warning message No warning message No warning message No warning message No warning message No warning message" },
+                style = dataTextStyle,
+                maxLines = if (isExpandedWarningMessage) Int.MAX_VALUE else 2,
+                overflow = TextOverflow.Ellipsis,
+            )
         }
     }
 }

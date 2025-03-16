@@ -68,7 +68,6 @@ fun HomeScreen(appState: RcAppState) {
 
             else -> {
                 Color.White
-
             }
         }
 
@@ -107,7 +106,8 @@ fun HomeScreen(appState: RcAppState) {
 @Composable
 fun BottomNavigationBar(backgroundColor: Color, selectedIndex: Int, tabItemClick: (Int) -> Unit) {
     NavigationBar(
-        containerColor = backgroundColor
+        containerColor = backgroundColor,
+        contentColor = Color.White,
     ) {
         NavigationBarItem(
             selected = selectedIndex == 0,

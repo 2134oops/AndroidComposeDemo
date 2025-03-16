@@ -2,14 +2,19 @@ package com.example.observatory.currentWeatherInfo.screen
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -76,16 +81,19 @@ internal fun CurrentWeatherInfoScreenContent(
                 .padding(it)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
             ) {
                 TemperatureInfoView(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio((4/3).toFloat()),
+                        .fillMaxWidth(),
                     data = temperatureInfo
                 )
+
+                Spacer(
+                    modifier.height(1.dp).fillMaxWidth().background(Color(0x80000000))
+                )
                 DropDownPicker(
-                    modifier= Modifier.fillMaxWidth(),
+                    modifier= Modifier.fillMaxWidth().padding(12.dp),
                     valueList = locationList,
                     selectedValue = dropdownListSelectedValue,
                     onSelect = dropdownListOnSelect
